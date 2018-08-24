@@ -4,7 +4,7 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {
-		onScanForValue: function (oEvent) {
+		onScanForQR: function (oEvent) {
 			if (!this._oScanDialog) {
 				this._oScanDialog = new sap.m.Dialog({
 					title: "Scan barcode",
@@ -151,6 +151,77 @@ sap.ui.define([
 			}
 
 			return oDeferred.promise();
+		},
+
+		onScanForQR: function (oEvent) {
+			this.codeScanned = false;
+			var container = new sap.m.VBox({
+				"width": "512px",
+				"height": "384px"
+			});
+			var button = new sap.m.Button("", {
+				text: "Cancel",
+				type: "Reject",
+				press: function () {
+					dialog.close();
+				}
+			});
+			var dialog = new sap.m.Dialog({
+				title: "Scan Window",
+				content: [
+					container,
+					button
+				]
+			});
+			dialog.open();
+			var video = document.createElement("video");
+			video.autoplay = true;
+			var that = this;
+			qrcode.callback = function (data) {
+				if (data !== "error decoding QR Code") {
+					this.codeScanned = true;
+					that._oScannedInspLot = data;
+					//sap.m.MessageBox.alert(data);//Message Pops up for scanned Value
+					dialog.close();
+
+				}
+			}.bind(this);
+
+			var canvas = document.createElement("canvas");
+			canvas.width = 512;
+			canvas.height = 384;
+			navigator.mediaDevices.getUserMedia({
+					audio: false,
+					video: {
+						facingMode: "environment",
+						width: {
+							ideal: 512
+						},
+						height: {
+							ideal: 384
+						}
+					}
+				})
+				.then(function (stream) {
+					video.srcObject = stream;
+					var ctx = canvas.getContext('2d');
+					var loop = (function () {
+						if (this.codeScanned) {
+							//video.stop();
+							return;
+						} else {
+							ctx.drawImage(video, 0, 0);
+							setTimeout(loop, 1000 / 30); // drawing at 30fps
+							qrcode.decode(canvas.toDataURL());
+						}
+					}.bind(this));
+					loop();
+				}.bind(this))
+				.catch(function (error) {
+					sap.m.MessageBox.error("Unable to get Video Stream");
+				});
+
+			container.getDomRef().appendChild(canvas);
 		}
 	});
 });

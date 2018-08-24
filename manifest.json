@@ -69,7 +69,24 @@
 				"uri": "css/style.css"
 			}],
 			"js": [{
-				"uri": "libs/quagga.min.js"
+				"uri": "libs/quagga.min.js",
+				"uri": "js/grid.js",
+				"uri": "js/version.js",
+				"uri": "js/detector.js",
+				"uri": "js/formatinf.js",
+				"uri": "js/errorlevel.js",
+				"uri": "js/bitmat.js",
+				"uri": "js/datablock.js",
+				"uri": "js/bmparser.js",
+				"uri": "js/datamask.js",
+				"uri": "js/rsdecoder.js",
+				"uri": "js/gf256poly.js",
+				"uri": "js/gf256.js",
+				"uri": "js/decoder.js",
+				"uri": "js/decoder.js",
+				"uri": "js/findpat.js",
+				"uri": "js/alignpat.js",
+				"uri": "js/databr.js"
 			}]
 		},
 		"routing": {

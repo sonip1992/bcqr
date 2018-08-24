@@ -9,7 +9,15 @@
 						<Label text="Barcode value"/>
 						<Input id="scannedValue" placeholder="{= ${device>/barcodeScanEnabled} ? 'Use scan button to enter barcode' : 'Enter barcode manually' }"
 							editable="{= !${device>/barcodeScanEnabled} }"/>
-						<Button icon="sap-icon://bar-code" text="Scan" tooltip="Scan barcode" visible="{device>/barcodeScanEnabled}" press="onScanForValue">
+						<Button icon="sap-icon://bar-code" text="Scan" tooltip="Scan barcode" visible="{device>/barcodeScanEnabled}" press="onScanForBC">
+							<layoutData>
+								<l:GridData span="L2 M2"/>
+							</layoutData>
+						</Button>
+
+						<Label text="QR value"/>
+						<Input id="scannedQRValue" placeholder="Press ScanQR button to enter QR" editable="{= !${device>/barcodeScanEnabled} }"/>
+						<Button icon="sap-icon://bar-code" text="ScanQR" tooltip="Scan qrcode" visible="{device>/barcodeScanEnabled}" press="onScanForQR">
 							<layoutData>
 								<l:GridData span="L2 M2"/>
 							</layoutData>
