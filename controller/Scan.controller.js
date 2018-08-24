@@ -3,8 +3,24 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"com/demo/qr_bc/DemoQR_BC/libs/quagga",
-	"com/demo/qr_bc/DemoQR_BC/js/qrcode"
-], function (Controller, quaggajs, qr) {
+	"com/demo/qr_bc/DemoQR_BC/js/grid",
+	"com/demo/qr_bc/DemoQR_BC/js/version",
+	"com/demo/qr_bc/DemoQR_BC/js/detector",
+	"com/demo/qr_bc/DemoQR_BC/js/formatinf",
+	"com/demo/qr_bc/DemoQR_BC/js/errorlevel",
+	"com/demo/qr_bc/DemoQR_BC/js/bitmat",
+	"com/demo/qr_bc/DemoQR_BC/js/datablock",
+	"com/demo/qr_bc/DemoQR_BC/js/bmparser",
+	"com/demo/qr_bc/DemoQR_BC/js/datamask",
+	"com/demo/qr_bc/DemoQR_BC/js/rsdecoder",
+	"com/demo/qr_bc/DemoQR_BC/js/gf256poly",
+	"com/demo/qr_bc/DemoQR_BC/js/gf256",
+	"com/demo/qr_bc/DemoQR_BC/js/decoder",
+	"com/demo/qr_bc/DemoQR_BC/js/qrcode",
+	"com/demo/qr_bc/DemoQR_BC/js/findpat",
+	"com/demo/qr_bc/DemoQR_BC/js/alignpat",
+	"com/demo/qr_bc/DemoQR_BC/js/databr"
+], function (Controller, quaggajs, grid, version, detector, formatinf, errorlevel, bitmat, datablock, bmparser, datamask, rsdecoder, gf256poly, gf256, decoder, qrcode, findpat, alignpat, databr) {
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {
