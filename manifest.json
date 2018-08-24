@@ -83,7 +83,7 @@
 				"uri": "js/gf256poly.js",
 				"uri": "js/gf256.js",
 				"uri": "js/decoder.js",
-				"uri": "js/decoder.js",
+				"uri": "js/qrcode.js",
 				"uri": "js/findpat.js",
 				"uri": "js/alignpat.js",
 				"uri": "js/databr.js"
