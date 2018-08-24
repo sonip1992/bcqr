@@ -4,14 +4,17 @@
 		<pages>
 			<Page title="{i18n>title}">
 				<content>
-					<Label text="Barcode value"/>
-					<Input id="scannedValue" placeholder="{= ${device>/barcodeScanEnabled} ? 'Use scan button to enter barcode' : 'Enter barcode manually' }"
-						editable="{= !${device>/barcodeScanEnabled} }"/>
-					<Button icon="sap-icon://bar-code" text="Scan" tooltip="Scan barcode" visible="{device>/barcodeScanEnabled}" press="onScanForValue">
-						<layoutData>
-							<l:GridData span="L2 M2"/>
-						</layoutData>
-					</Button>
+					<f:SimpleForm layout="ResponsiveGridLayout" editable="true" labelSpanL="3" labelSpanM="3" emptySpanL="3" emptySpanM="3" columnsL="1"
+						columnsM="1">
+						<Label text="Barcode value"/>
+						<Input id="scannedValue" placeholder="{= ${device>/barcodeScanEnabled} ? 'Use scan button to enter barcode' : 'Enter barcode manually' }"
+							editable="{= !${device>/barcodeScanEnabled} }"/>
+						<Button icon="sap-icon://bar-code" text="Scan" tooltip="Scan barcode" visible="{device>/barcodeScanEnabled}" press="onScanForValue">
+							<layoutData>
+								<l:GridData span="L2 M2"/>
+							</layoutData>
+						</Button>
+					</f:SimpleForm>
 				</content>
 			</Page>
 		</pages>
