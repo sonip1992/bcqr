@@ -2,8 +2,9 @@
 /* global qrcode:true */
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"com/demo/qr_bc/DemoQR_BC/libs/quagga"
-], function (Controller, quaggajs) {
+	"com/demo/qr_bc/DemoQR_BC/libs/quagga",
+	"com/demo/qr_bc/DemoQR_BC/js/qrcode"
+], function (Controller, quaggajs, qr) {
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {
