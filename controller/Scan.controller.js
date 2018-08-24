@@ -20,7 +20,7 @@ sap.ui.define([
 	"com/demo/qr_bc/DemoQR_BC/js/findpat",
 	"com/demo/qr_bc/DemoQR_BC/js/alignpat",
 	"com/demo/qr_bc/DemoQR_BC/js/databr"
-], function (Controller, quaggajs, grid, version, detector, formatinf, errorlevel, bitmat, datablock, bmparser, datamask, rsdecoder, gf256poly, gf256, decoder, qrcode, findpat, alignpat, databr) {
+], function (Controller, quaggajs, grid, version, detector, formatinf, errorlevel, bitmat, datablock, bmparser, datamask, rsdecoder, gf256poly, gf256, decoder, qr, findpat, alignpat, databr) {
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {
