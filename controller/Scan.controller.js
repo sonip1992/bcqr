@@ -201,7 +201,7 @@ sap.ui.define([
 				if (data !== "error decoding QR Code") {
 					this.codeScanned = true;
 					that._oScannedInspLot = data;
-					//sap.m.MessageBox.alert(data);//Message Pops up for scanned Value
+					this.getView().byId("scannedQRValue").setValue(data);
 					dialog.close();
 
 				}
