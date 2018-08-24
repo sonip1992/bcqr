@@ -2,7 +2,7 @@
 	xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" displayBlock="true" xmlns="sap.m">
 	<App id="idAppControl">
 		<pages>
-			<Page title="{i18n>title}">
+			<Page title="Scanner">
 				<content>
 					<f:SimpleForm layout="ResponsiveGridLayout" editable="true" labelSpanL="3" labelSpanM="3" emptySpanL="3" emptySpanM="3" columnsL="1"
 						columnsM="1">
