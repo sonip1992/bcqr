@@ -4,7 +4,7 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {
-		onScanForQR: function (oEvent) {
+		onScanForBC: function (oEvent) {
 			if (!this._oScanDialog) {
 				this._oScanDialog = new sap.m.Dialog({
 					title: "Scan barcode",
