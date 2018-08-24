@@ -1,6 +1,8 @@
+/* global Quagga:true */
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+	"sap/ui/core/mvc/Controller",
+	"com/demo/qr_bc/DemoQR_BC/libs/quagga"
+], function (Controller, quaggajs) {
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {

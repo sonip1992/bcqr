@@ -69,7 +69,6 @@
 				"uri": "css/style.css"
 			}],
 			"js": [{
-				"uri": "libs/quagga.min.js",
 				"uri": "js/grid.js",
 				"uri": "js/version.js",
 				"uri": "js/detector.js",
