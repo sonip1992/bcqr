@@ -1,0 +1,19 @@
+<mvc:View controllerName="com.demo.qr_bc.DemoQR_BC.controller.Scan" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" displayBlock="true" xmlns="sap.m">
+	<App id="idAppControl">
+		<pages>
+			<Page title="{i18n>title}">
+				<content>
+					<Label text="Barcode value"/>
+					<Input id="scannedValue" placeholder="{= ${device>/barcodeScanEnabled} ? 'Use scan button to enter barcode' : 'Enter barcode manually' }"
+						editable="{= !${device>/barcodeScanEnabled} }"/>
+					<Button icon="sap-icon://bar-code" text="Scan" tooltip="Scan barcode" visible="{device>/barcodeScanEnabled}" press="onScanForValue">
+						<layoutData>
+							<l:GridData span="L2 M2"/>
+						</layoutData>
+					</Button>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
