@@ -7,7 +7,7 @@ sap.ui.define([
 		metadata: {
             properties: {
                 "width": {type : "sap.ui.core.CSSSize", defaultValue : "735px"},
-                "height": {type : "sap.ui.core.CSSSize", defaultValue : "1040px"},
+                "height": {type : "sap.ui.core.CSSSize", defaultValue : "414px"},
                 "autoRotation": {type : "boolean", defaultValue : true},
                 "image": "string"
             },
