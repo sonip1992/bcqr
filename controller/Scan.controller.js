@@ -2,7 +2,6 @@
 /* global qrcode:true */
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/m/Button",
 	"com/demo/qr_bc/DemoQR_BC/libs/quagga",
 	"com/demo/qr_bc/DemoQR_BC/js/grid",
 	"com/demo/qr_bc/DemoQR_BC/js/version",
@@ -23,7 +22,8 @@ sap.ui.define([
 	"com/demo/qr_bc/DemoQR_BC/js/databr",
 	"com/demo/qr_bc/DemoQR_BC/util/WebcamPreview",
 	"com/demo/qr_bc/DemoQR_BC/util/ImageCropper"
-], function (Controller, Button, quaggajs, grid, version, detector, formatinf, errorlevel, bitmat, datablock, bmparser, datamask, rsdecoder, gf256poly, gf256, decoder, qr, findpat, alignpat, databr, Webcam, ImageCropper) {
+], function (Controller, quaggajs, grid, version, detector, formatinf, errorlevel, bitmat, datablock, bmparser, datamask, rsdecoder,
+	gf256poly, gf256, decoder, qr, findpat, alignpat, databr, Webcam, ImageCropper) {
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {
@@ -247,111 +247,145 @@ sap.ui.define([
 			container.getDomRef().appendChild(canvas);
 		},
 
-		onScanForImage: function(oEvent) {
+		onScanForImage: function (oEvent) {
 			var _ctrlSrc = oEvent.getSource();
 			var _btnText = _ctrlSrc.getText();
 			var c = this;
 
-			if(_btnText === "Remove") {
-				_ctrlSrc.setText("Capture Image");
-				_ctrlSrc.setType("Default");
-				c.picture = "";
-				c.croppedPicture = "";
-			} 
+			if (_btnText === "Remove Image") {
+				this.onReset(null);
+				return;
+			}
 
-
-			var bar = new sap.m.Bar({
+			var bar = new sap.m.Bar("imgTool", {
 				visible: false,
-				contentLeft: [ 
-					new Button({
-						text: "Retake",
-						press: this.onRetake,
-						icon: "sap-icon://reset"
-					})
-				],
+				contentLeft: new sap.m.Button({
+					text: "Retake",
+					press: function (oEvent) {
+						c.onRetake(oEvent);
+					},
+					icon: "sap-icon://reset"
+				}),
 				contentMiddle: [
-					new Button({
+					new sap.m.Button({
 						text: "Rotate Left",
-						press: this.onRotateLeft
+						press: function (oEvent) {
+							c.onRotateLeft(oEvent);
+						}
 					}),
-					new Button({
+					new sap.m.Button({
 						text: "Center",
-						press: this.onCenter
+						press: function (oEvent) {
+							c.onCenter(oEvent);
+						}
 					}),
-					new Button({
+					new sap.m.Button({
 						text: "Rotate Right",
-						press: this.onRotateRight
+						press: function (oEvent) {
+							c.onRotateRight(oEvent);
+						}
 					})
 				],
-				contentRight: [
-					new Button({
-						text: "Save",
-						press: this.onSavePicture,
-						icon: "sap-icon://save"
-					})
-				]
+				contentRight: new sap.m.Button({
+					text: "Save",
+					press: function (oEvent) {
+						c.onSavePicture(oEvent);
+					},
+					icon: "sap-icon://save"
+				})
 			});
+
+			var webcam = this.getWebCamCtrl();
 
 			this._dialog = new sap.m.Dialog({
 				title: "Scan Window",
-				content: [ bar, new Webcam("webcam"), new ImageCropper("imageCropper") ],
-				beginButton: new Button({
-								text: 'Take Picture',
-								type: "Accept",
-								press: this.onTakePicture
-							}),
-				endButton: new Button({
-								text: 'Cancel',
-								press: function () {
-									dialog.close();
-								}
-							}),
-				afterClose: function() {
-					dialog.destroy();
+				content: [bar, webcam],
+				beginButton: new sap.m.Button({
+					text: 'Take Picture',
+					type: "Accept",
+					press: function (oEvent) {
+						c.onTakePicture(oEvent);
+					}
+				}),
+				endButton: new sap.m.Button({
+					text: 'Cancel',
+					press: function () {
+						c._dialog.close();
+					}
+				}),
+				afterClose: function () {
+					c._dialog.destroy();
 				}
 			});
 
 			this._dialog.open();
 		},
 
-		onTakePicture: function() {
+		getWebCamCtrl: function () {
+			return new Webcam("webcam", {
+				webcamLoaded: function () {
+					console.log("Webcam Started");
+				},
+				webcamError: function (oEvent) {
+					console.log(oEvent.getParameter("error"));
+				}
+			})
+		},
+
+		onTakePicture: function () {
 			var c = this;
-			this.byId("webcam").snapshot().then(function(dataURL) {
-				c.byId("imageCropper").reset();
+			sap.ui.getCore().byId("webcam").snapshot().then(function (dataURL) {
+				c._dialog.getBeginButton().setEnabled(false);
 				c.picture = dataURL;
 				console.log(c.picture);
 				c.switchToCrop();
-			}).catch(function(error) {
+			}).catch(function (error) {
 				console.log(error);
 			});
 		},
 
-		switchToCrop: function() {
-			var c = this;
-			this.byId("webcam").stop();
-			c.byId("imageCropper").setImage(c.picture);
+		onRetake: function () {
+			sap.ui.getCore().byId("imgTool").setVisible(false);
+			this._dialog.getBeginButton().setEnabled(true);
+			this._dialog.removeContent(1);
+			sap.ui.getCore().byId("imageCropper").destroy();
+			var webcam = this.getWebCamCtrl();
+			this._dialog.addContent(webcam);
 		},
 
-		onSavePicture: function(event) {
-			c.byId("imageCropper").crop().then(function(picture) {
-				c.switchToVerify();
+		switchToCrop: function () {
+			var c = this;
+			sap.ui.getCore().byId("webcam").stop();
+			sap.ui.getCore().byId("imgTool").setVisible(true);
+			this._dialog.removeContent(1);
+			sap.ui.getCore().byId("webcam").destroy();
+			this._dialog.addContent(new ImageCropper("imageCropper", {
+				image: c.picture
+			}));
+		},
+
+		onSavePicture: function (event) {
+			var c = this;
+			sap.ui.getCore().byId("imageCropper").crop().then(function (picture) {
 				c.croppedPicture = picture.dataURL;
 				c._dialog.close();
+				sap.ui.getCore().byId("imageCropper").destroy();
+				c.byId("imgCtrl").setSrc(c.croppedPicture);
 				c.byId("image").setText("Remove Image");
 				c.byId("image").setType("Reject");
 			});
 		},
 
-		onVerify: function() {
+		onVerify: function () {
 
 		},
 
-		onReset: function(oEvent, oCtrlSrc) {
-			if(!!oEvent) {
+		onReset: function (oEvent) {
+			if (oEvent !== null) {
 				this.byId("scannedValue").setValue("");
 				this.byId("scannedQRValue").setValue("");
 			}
-
+			this.byId("imgCtrl").setSrc(null);
 			this.byId("image").setText("Capture Image");
 			this.byId("image").setType("Default");
 			this.picture = "";

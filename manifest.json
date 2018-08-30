@@ -67,7 +67,10 @@
 		"resources": {
 			"css": [{
 				"uri": "css/style.css"
-			}]
+			}],
+			"js": [
+				{"uri": "libs/hammer.js"}
+			]
 		},
 		"routing": {
 			"config": {
