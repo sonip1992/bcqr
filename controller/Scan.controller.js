@@ -337,7 +337,6 @@ sap.ui.define([
 			sap.ui.getCore().byId("webcam").snapshot().then(function (dataURL) {
 				c._dialog.getBeginButton().setEnabled(false);
 				c.picture = dataURL;
-				console.log(c.picture);
 				c.switchToCrop();
 			}).catch(function (error) {
 				console.log(error);
