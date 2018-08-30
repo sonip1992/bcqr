@@ -2,6 +2,7 @@
 /* global qrcode:true */
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
+	"sap/m/Button",
 	"com/demo/qr_bc/DemoQR_BC/libs/quagga",
 	"com/demo/qr_bc/DemoQR_BC/js/grid",
 	"com/demo/qr_bc/DemoQR_BC/js/version",
@@ -19,8 +20,10 @@ sap.ui.define([
 	"com/demo/qr_bc/DemoQR_BC/js/qrcode",
 	"com/demo/qr_bc/DemoQR_BC/js/findpat",
 	"com/demo/qr_bc/DemoQR_BC/js/alignpat",
-	"com/demo/qr_bc/DemoQR_BC/js/databr"
-], function (Controller, quaggajs, grid, version, detector, formatinf, errorlevel, bitmat, datablock, bmparser, datamask, rsdecoder, gf256poly, gf256, decoder, qr, findpat, alignpat, databr) {
+	"com/demo/qr_bc/DemoQR_BC/js/databr",
+	"com/demo/qr_bc/DemoQR_BC/util/WebcamPreview",
+	"com/demo/qr_bc/DemoQR_BC/util/ImageCropper"
+], function (Controller, Button, quaggajs, grid, version, detector, formatinf, errorlevel, bitmat, datablock, bmparser, datamask, rsdecoder, gf256poly, gf256, decoder, qr, findpat, alignpat, databr, Webcam, ImageCropper) {
 	"use strict";
 
 	return Controller.extend("com.demo.qr_bc.DemoQR_BC.controller.Scan", {
@@ -242,6 +245,118 @@ sap.ui.define([
 				});
 
 			container.getDomRef().appendChild(canvas);
+		},
+
+		onScanForImage: function(oEvent) {
+			var _ctrlSrc = oEvent.getSource();
+			var _btnText = _ctrlSrc.getText();
+			var c = this;
+
+			if(_btnText === "Remove") {
+				_ctrlSrc.setText("Capture Image");
+				_ctrlSrc.setType("Default");
+				c.picture = "";
+				c.croppedPicture = "";
+			} 
+
+
+			var bar = new sap.m.Bar({
+				visible: false,
+				contentLeft: [ 
+					new Button({
+						text: "Retake",
+						press: this.onRetake,
+						icon: "sap-icon://reset"
+					})
+				],
+				contentMiddle: [
+					new Button({
+						text: "Rotate Left",
+						press: this.onRotateLeft
+					}),
+					new Button({
+						text: "Center",
+						press: this.onCenter
+					}),
+					new Button({
+						text: "Rotate Right",
+						press: this.onRotateRight
+					})
+				],
+				contentRight: [
+					new Button({
+						text: "Save",
+						press: this.onSavePicture,
+						icon: "sap-icon://save"
+					})
+				]
+			});
+
+			this._dialog = new sap.m.Dialog({
+				title: "Scan Window",
+				content: [ bar, new Webcam("webcam"), new ImageCropper("imageCropper") ],
+				beginButton: new Button({
+								text: 'Take Picture',
+								type: "Accept",
+								press: this.onTakePicture
+							}),
+				endButton: new Button({
+								text: 'Cancel',
+								press: function () {
+									dialog.close();
+								}
+							}),
+				afterClose: function() {
+					dialog.destroy();
+				}
+			});
+
+			this._dialog.open();
+		},
+
+		onTakePicture: function() {
+			var c = this;
+			this.byId("webcam").snapshot().then(function(dataURL) {
+				c.byId("imageCropper").reset();
+				c.picture = dataURL;
+				console.log(c.picture);
+				c.switchToCrop();
+			}).catch(function(error) {
+				console.log(error);
+			});
+		},
+
+		switchToCrop: function() {
+			var c = this;
+			this.byId("webcam").stop();
+			c.byId("imageCropper").setImage(c.picture);
+		},
+
+		onSavePicture: function(event) {
+			c.byId("imageCropper").crop().then(function(picture) {
+				c.switchToVerify();
+				c.croppedPicture = picture.dataURL;
+				c._dialog.close();
+				c.byId("image").setText("Remove Image");
+				c.byId("image").setType("Reject");
+			});
+		},
+
+		onVerify: function() {
+
+		},
+
+		onReset: function(oEvent, oCtrlSrc) {
+			if(!!oEvent) {
+				this.byId("scannedValue").setValue("");
+				this.byId("scannedQRValue").setValue("");
+			}
+
+			this.byId("image").setText("Capture Image");
+			this.byId("image").setType("Default");
+			this.picture = "";
+			this.croppedPicture = "";
 		}
+
 	});
 });
