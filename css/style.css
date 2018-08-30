@@ -9,3 +9,36 @@ canvas.drawingBuffer {
 	left	: 50px;
 	right	: 0
 }
+
+.sapIcnWebcamPreviewContainer {
+    overflow: hidden;
+}
+
+.sapIcnWebcamPreviewVideo {
+    width: 100%;
+}
+
+.sapIcnWebcamPreviewCanvas {
+    display: none;
+    width: 1920px;
+    height: 1080px;
+}
+
+.sapIcnImageCropperContainer {
+    overflow: hidden;
+    padding: 20px;
+    border: 1px solid #444444;
+    width: 735px;
+    height: 1040px;
+}
+
+.sapIcnImageCropperImage {
+    width: 100%;
+}
+
+.sapIcnImageCropperCanvas {
+    display: none;
+    width: 1470px;
+    height: 2080px;
+    transform: scale3d(0.5,0.5,1);
+}

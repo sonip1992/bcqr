@@ -22,8 +22,21 @@
 								<l:GridData span="L2 M2"/>
 							</layoutData>
 						</Button>
+
+						<Button icon="sap-icon://camera" id="image" text="Capture Image" tooltip="Scan Image" visible="{device>/barcodeScanEnabled}" press="onScanForImage">
+							<layoutData>
+								<l:GridData span="L2 M2"/>
+							</layoutData>
+						</Button>
 					</f:SimpleForm>
 				</content>
+				<footer>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+							<Button type="Accept" text="Verify" prezss="onVerify"/>
+							<Button type="Reject" text="Reset" press="onReset"/>
+						</OverflowToolbar>
+				</footer>
 			</Page>
 		</pages>
 	</App>
