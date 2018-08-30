@@ -1,13 +1,14 @@
 /* Enter your custom styles here */
+
 canvas.drawingBuffer {
-	z-index	: 11;
-	position: absolute;
-	width	: 100%;
-	height	: 100%;
-	top		: 50px;
-	bottom	: 0;
-	left	: 50px;
-	right	: 0
+    z-index: 11;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50px;
+    bottom: 0;
+    left: 50px;
+    right: 0
 }
 
 .sapIcnWebcamPreviewContainer {
@@ -29,7 +30,7 @@ canvas.drawingBuffer {
     padding: 20px;
     border: 1px solid #444444;
     width: 735px;
-    height: 1040px;
+    height: 414px;
 }
 
 .sapIcnImageCropperImage {
@@ -40,5 +41,14 @@ canvas.drawingBuffer {
     display: none;
     width: 1470px;
     height: 2080px;
-    transform: scale3d(0.5,0.5,1);
+    transform: scale3d(0.5, 0.5, 1);
+}
+
+.marginScanImg {
+    margin-top: 5em;
+}
+
+.marginScanImgCtrl {
+    margin-top: 2em;
+    margin-left: 5em;
 }
